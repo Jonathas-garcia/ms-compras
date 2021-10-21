@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}-dp
+  labels:
+    app: {{ .Values.appName }}
+    type: {{ .Values.labelType }}
+spec:
+  template:
+    metadata:
+      name: backend-pod
+      labels:
+        app: {{ .Values.appName }}
+        type: {{ .Values.labelType }}
+    spec:
+      containers:
+        - name: {{ .Values.appName }}
+          image: {{ .Values.container.repo }}/{{ .Values.container.name }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .Values.container.port }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.appName }}-secret
+          env:
+            - name: RABBIT_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.appName }}-configmap
+                  key: RABBIT_HOST
+
+            - name: RABBIT_TIMEOUT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.appName }}-configmap
+                  key: RABBIT_TIMEOUT
+            - name: RABBIT_QUEUE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.appName }}-configmap
+                  key: RABBIT_QUEUE_NAME
+            - name: RABBIT_EXCHANGE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.appName }}-configmap
+                  key: RABBIT_EXCHANGE_NAME
+  selector:
+    matchLabels:
+      type: {{ .Values.labelType }}
+  replicas: {{ .Values.replicaCount }}

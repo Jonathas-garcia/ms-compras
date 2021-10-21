@@ -1,0 +1,23 @@
+
+appName: ms-compras
+replicaCount: 2
+labelType: backend
+
+rabbit:
+  host: jackal.rmq.cloudamqp.com
+  timeout: 30000
+  exchange: compras-exchange
+  queue: compras-queue
+
+container:
+  repo: jonathasgarcia
+  name: ms-compras
+  port: 8080
+  nodePort: 30081
+  type: NodePort
+
+host:
+  path: /app
+
+
+
