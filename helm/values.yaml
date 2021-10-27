@@ -4,7 +4,7 @@ replicaCount: 2
 labelType: backend
 
 rabbit:
-  host: jackal.rmq.cloudamqp.com
+  host: rabbitmq.backend.svc
   timeout: 30000
   exchange: compras-exchange
   queue: compras-queue
@@ -17,7 +17,7 @@ container:
   type: NodePort
 
 host:
-  path: /app
+  path: /ms-compras
 
 
 

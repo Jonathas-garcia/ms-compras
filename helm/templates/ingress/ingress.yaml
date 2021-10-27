@@ -9,14 +9,15 @@ metadata:
       name: {{ .Values.appName }}-ingress
 spec:
   rules:
-   - http:
-      paths:
-      - pathType: Prefix
-        path: {{ .Values.host.path }}(/|$)(.*)
-        backend:
-          service:
-            name: {{ .Values.appName }}-svc
-            port:
-              number: 8080
+    - host: "app.devlocal.com"
+      http:
+        paths:
+        - pathType: Prefix
+          path: {{ .Values.host.path }}(/|$)(.*)
+          backend:
+            service:
+              name: {{ .Values.appName }}-svc
+              port:
+                number: 8080
       
 

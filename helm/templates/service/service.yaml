@@ -4,6 +4,7 @@ metadata:
   name: {{ .Values.appName }}-svc
 spec:
   selector:
+    app: {{ .Values.appName }}
     type: {{ .Values.labelType }}
   ports:
     - name: http
